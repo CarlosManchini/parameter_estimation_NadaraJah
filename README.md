@@ -11,7 +11,8 @@ $$ g(x)=\alpha \lambda(1+\lambda x)^{\alpha-1} \exp \left[ 1-\left( 1+\lambda x\
 
 em que $\lambda$ é o parâmetro de escala e $\alpha$ representa o parâmetro de forma. Quando $\alpha=1$  temos o caso particular da distribuição NH  equivalente à distribuição exponencial.
 
-![Descrição da imagem](./fig1.png)
+<!--- ![Fig1](https://raw.githubusercontent.com/carlosmanchini/parameter_estimation_nadarajah/fig1.png) --->
+![Fig1](./main/fig1.png)
 
 $$ G(x)=1-\exp \left[ 1-(1+\lambda x)^\alpha \right]. $$
 
