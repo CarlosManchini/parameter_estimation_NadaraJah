@@ -11,6 +11,8 @@ $$ g(x)=\alpha \lambda(1+\lambda x)^{\alpha-1} \exp \left[ 1-\left( 1+\lambda x\
 
 em que $\lambda$ é o parâmetro de escala e $\alpha$ representa o parâmetro de forma. Quando $\alpha=1$  temos o caso particular da distribuição NH  equivalente à distribuição exponencial.
 
+![Descrição da imagem](./fig1.png)
+
 $$ G(x)=1-\exp \left[ 1-(1+\lambda x)^\alpha \right]. $$
 
 A função de taxa de risco ou taxa de falha é uma quantidade que caracteriza o comportamento da sobrevivência até um determinando tempo. Em geral, a taxa de falha pode possuir um crescimento ou decrescimento não-monótono. 	Analisando-a pode-se definir o modelo probabilístico mais adequado para modelar o tempo de sobrevivência.	 Destaca-se que a distribuição NH é capaz de modelar dados que possuem taxas de falha não-monótonas independente da variação da densidade da distribuição. Este é um importante diferencial sob distribuições usuais em análise de sobrevivência como gama, Weibull e exponencial exponencializada que apenas acomodam taxas de falhas crescentes/decrescentes quando sua respectiva densidade estão diminuindo monotonicamente.	 
