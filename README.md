@@ -9,10 +9,16 @@ A distribuição exponencial é amplamente empregada para problemas de análise 
 
 $$ g(x)=\alpha \lambda(1+\lambda x)^{\alpha-1} \exp \left[ 1-\left( 1+\lambda x\right) ^\lambda\right], \quad \lambda>0,\quad \alpha>0, $$
 
-em que $\lambda$ é o parâmetro de escala e $\alpha$ representa o parâmetro de forma. Quando $\alpha=1$  temos o caso particular da distribuição NH  equivalente à distribuição exponencial.
+em que $\lambda$ é o parâmetro de escala e $\alpha$ representa o parâmetro de forma. Quando $\alpha=1$  temos o caso particular da distribuição NH  equivalente à distribuição exponencial. 
+A Figura 1 apresenta diferentes densidades da distribuição NH ao variar o parâmetro da forma $\alpha$ e manter $\lambda=1$.
 
 <!--- ![Fig1](https://raw.githubusercontent.com/carlosmanchini/parameter_estimation_nadarajah/fig1.png) --->
-![Fig1](./main/fig1.png)
+
+<p align="center">
+  <img src="fig1.PNG" alt="Figura1" width="500">
+</p>
+
+A função distribuição acumulada é dada por:
 
 $$ G(x)=1-\exp \left[ 1-(1+\lambda x)^\alpha \right]. $$
 
@@ -21,8 +27,76 @@ A função de taxa de risco ou taxa de falha é uma quantidade que caracteriza o
   
   $$ 	h(x) = \alpha \lambda (1+\lambda x)^{\alpha-1}. $$
   
-  Generalizando uma distribuição é possível obter uma função de falha mais flexível, podendo ser constante, decrescente, crescente, em forma da banheira e banheira invertida, a depender dos valores dos parâmetros.
+  Generalizando uma distribuição é possível obter uma função de falha mais flexível, podendo ser constante, decrescente, crescente, em forma da banheira e banheira invertida, a depender dos valores dos parâmetros.  Analogamente aos formatos da densidade NH, apresentamos com mesmos parâmetros,  as formas da taxa de risco para a NH visualizadas na Figura 2.
   
+ <p align="center">
+  <img src="fig2.PNG" alt="Figura2" width="455">
+</p>
+ 
   O presente trabalho visa uma avaliação numérica dos EMV (Estimadores de Máxima Verossimilhança) $\hat{\alpha}$ e $\hat{\lambda}$ da distribuição NH, via simulação Monte Carlo. O comportamento e desempenho dos EMV será comparado sob amostras de tamanho finito e sob a inclusão do vetor escore com primeiras derivadas analíticas no processo de otimização de máxima verossimilhança, os quais serão denotados por $\hat{\alpha}_s$ e $\hat{\lambda}_s$.
 
 ### 2. Estimação Pontual
+
+#### 2.1 Estimador de Máxima Verossimilhança (EMV)
+
+O método de máxima verossimilhança é o método mais popular para estimação de parâmetros, sendo amplamente explorado na literatura \cite{Pawitan2001}. Seja $\mathbf{x}=(x_1,x_2,\ldots,x_n)$ uma amostra observada $\sim NH(\alpha, \lambda)$, sendo $n$ o tamanho amostral, a função de verossimilhança para os parâmetros $\alpha$ e $\lambda$ é definida por:
+
+$$
+	L(\alpha,\lambda;\mathbf{x}) = \prod_{i=1}^{n} g(x_i;\alpha,\lambda) = \prod_{i=1}^{n} \alpha \lambda(1+\lambda x_i)^{\alpha-1} \exp \left[ 1-\left( 1+\lambda x_i\right) ^\lambda\right]. $$
+	
+Tomando o logaritmo da função de verossimilhança, temos a função de log-verossimilhança, dada por:
+
+$$
+\ell (\alpha,\lambda;\mathbf{x}) = \sum_{i=1}^{n} \log \left[ g(x_i;\alpha,\lambda) \right] = \sum_{i=1}^{n} \ell_i(x_i;\alpha,\lambda),
+$$
+
+em que
+
+$$ \ell_i(x_i;\alpha,\lambda) = n + n\log(\alpha \lambda) + (\alpha-1) \log(1+
+	\lambda x_i) - \sum_{i=1}^n (1+\lambda x_i)^\alpha. $$
+	
+Os estimadores de máxima verossimilhança são os valores $\hat{\alpha}$ e $\hat{\lambda}$ que maximizam a função de verossimilhança, ou, equivalentemente, a função de log-verossimilhança. 
+Para obtenção dos estimadores, 
+	deriva-se a log-verossimilhança em relação a cada um dos parâmetros e iguala-se a zero. Como expresso a seguir:
+	
+$$ \frac{n}{\alpha} + \sum_{i=1}^{n} \log(1+\lambda x_i) - \sum_{i=1}^{n} (1+\lambda x_i)^\alpha \log(1+\lambda x_i) = 0 $$
+
+e
+
+$$ \frac{n}{\lambda}+ (\alpha-1) \sum_{i=1}^{n} x_i(1+\lambda x_i)^{-1} - \alpha \sum_{i=1}^{n} x_i (1+\lambda x_i)^{\alpha-1}. $$
+
+Contudo, a solução desse sistema não possui forma fechada. Devido a isso, são considerados métodos numéricos para maximização da função de log-verossimilhança. 
+
+#### 2.2 Estimador de Mínima Distância (EMD)
+A distância mínima é definida como um método de estimação geral desenvolvida por \cite{Wolfowitz1953}. A idéia principal se baseia em fazer com que a função de distribuição assumida avaliada nas estimativas esteja mais próxima da função de distribuição empírica das variáveis observadas. A função de distribuição empírica é dada por:
+
+$$
+G_n(x) = \frac{1}{n} \sum_{i=1}^n ~ \mathrm{I} (X_i \leqslant x),
+$$
+
+em que $\mathrm{I}$ é a função indicadora. 
+A minimização da distância entre a função de distribuição empírica $G_n$ e a função de distribuição estimada $G_{\hat{\theta}}$, produz estimadores com propriedades de robustez e consistência. Neste relatório, $\theta$ são os parâmetros $ \alpha $ e $ \lambda $ da distribuição NH e $ G_\theta(x) $ é a função distribuição acumulada da NH.
+O método pode ser aplicado com diversas medidas de distância. Consideramos a distância de Kolmogorov-Smirnov (KS) dada por \citep{Biblio1981}:
+
+$$
+\delta_{KS} (G_n, G_{\hat{\theta}}) = sup_{x} \mid G_n(x) - G_{\hat{\theta}}(x) \mid.
+$$
+
+ A distância KS mede a máxima discrepância absoluta entre a função de distribuição empírica da amostra $ G_n(x) $ e a função de distribuição acumulada estimada $ G_{\hat{\theta}}(x) $ da distribuição beta. Os valores de $\theta$ que minimizam a discrepância das distribuições $(F_n,F_\theta)$, ou seja, os estimadores de mínima distância, serão denotados por $ \hat{\alpha}_\delta $ e $ \hat{\lambda}_\delta $.
+
+ 
+### 3. Método de Monte Carlo
+
+Simulações de Monte Carlo são baseadas na Lei dos Grandes Números, proposta por Bernoulli. Se fundamenta em  experimentos independentes realizados repetidamente. Supondo $p$ uma probabilidade de sucesso, temos que sob um número de repetições arbitrariamente grande, o experimento convergirá exatamente para $p$. A usual aplicação de Monte Carlo em estatística se dá na avaliação de estimadores em casos que a determinação analítica de propriedades como viés, erro padrão e EQM são impossíveis ou muito custosas. Também, no caso de analisar o comportamento dos estimadores em amostras finitas, mesmo já tendo conhecimento de suas propriedades assintóticas.
+Um algoritmo completo sobre o funcionamento de simulações de Monte Carlo, dado por:
+1. Atribua um determinado valor ao seu parâmetro e determinar um tamanho amostral $n$ de interesse;
+2. Gere uma ocorrência de uma amostra aleatória de tamanho n, seguindo a distribuição teórica de interesse indexada pelo parâmetro $\theta$ fixado;
+3. Baseando-se na amostra simulada, determinar uma estimativa para $\hat{\theta_k}$ do estimador $\hat{\theta}$. Guardar este valor de $\hat{\theta_k}$;
+4. Repita os dois passos (2) e (3) anteriores um número R muito grande de vezes, ou seja, obtenha $\hat{\theta_k},$ com $k = 1, \ldots, R $;
+5. Baseado no vetor com R réplicas de Monte Carlo do estimador $\hat{\theta}$ calcule as medidas descritivas de interesse, como, por exemplo: média, variância, desvio-padrão, coeficientes de assimetria e curtose, etc. Perceba que se $R$ for grande o suficiente, a Lei dos Grandes Números nos garante que essas medidas serão a média, variância, erro-padrão, etc, do estimador $\hat{\theta}$;
+6. Como o valor de $\theta$ é conhecido, pois inicialmente atribuímos um valor a ele, então sabemos avaliar o viés do estimador, assim como o EQM.
+
+### 4. Avaliação Numérica
+Um estudo de simulações de Monte Carlo é apresentado para avaliar numericamente os EMV dos parâmetros da distribuição NH. Foram consideradas 50000 réplicas de Monte Carlo para cada cenário com tamanhos amostrais $n=30, 100, 300$. Em cada réplica, foram geradas $n$ ocorrências da variável $x \sim NH(\alpha,\lambda)$ pelo método da inversão.
+
+As medidas estatísticas calculadas foram: média, viés, viés relativo percentual (VR), erro padrão e erro quadrático médio (EQM). As implementações computacionais foram desenvolvidas em linguagem R. Nos procedimentos de maximização das funções de log-verossimilhança condicionais foi utilizado o método quasi-Newton BFGS  com primeiras derivadas analíticas. O algoritmo de otimização exige valores iniciais definidos como seus respectivos valores verdadeiros. A escolha dos cenários foi feita fixamos o valor do parâmetro de escala $\lambda=1$ e variamos o parâmetro de forma $\alpha=0.5, 1, 2, 3.$ Os resultados são apresentados nas Tabelas 1, 2 e 3.
