@@ -68,21 +68,27 @@ $$ \frac{n}{\lambda}+ (\alpha-1) \sum_{i=1}^{n} x_i(1+\lambda x_i)^{-1} - \alpha
 Contudo, a solução desse sistema não possui forma fechada. Devido a isso, são considerados métodos numéricos para maximização da função de log-verossimilhança. 
 
 #### 2.2 Estimador de Mínima Distância (EMD)
-A distância mínima é definida como um método de estimação geral desenvolvida por \cite{Wolfowitz1953}. A idéia principal se baseia em fazer com que a função de distribuição assumida avaliada nas estimativas esteja mais próxima da função de distribuição empírica das variáveis observadas. A função de distribuição empírica é dada por:
+A distância mínima é definida como um método de estimação geral desenvolvida por Wolfowitz (1953). A idéia principal se baseia em fazer com que a função de distribuição assumida avaliada nas estimativas esteja mais próxima da função de distribuição empírica das variáveis observadas. A função de distribuição empírica é dada por:
 
 $$
 G_n(x) = \frac{1}{n} \sum_{i=1}^n ~ \mathrm{I} (X_i \leqslant x),
 $$
 
 em que $\mathrm{I}$ é a função indicadora. 
-A minimização da distância entre a função de distribuição empírica $G_n$ e a função de distribuição estimada $G_{\hat{\theta}}$, produz estimadores com propriedades de robustez e consistência. Neste relatório, $\theta$ são os parâmetros $ \alpha $ e $ \lambda $ da distribuição NH e $ G_\theta(x) $ é a função distribuição acumulada da NH.
-O método pode ser aplicado com diversas medidas de distância. Consideramos a distância de Kolmogorov-Smirnov (KS) dada por \citep{Biblio1981}:
+A minimização da distância entre a função de distribuição empírica $G_n$ e a função de distribuição estimada $G_{\hat{\theta}}$, produz estimadores com propriedades de robustez e consistência. Neste relatório, $\theta$ são os parâmetros $\alpha$ e $\lambda$ da distribuição NH e $G_\theta(x)$ é a função distribuição acumulada da NH.
+O método pode ser aplicado com diversas medidas de distância. Consideramos a distância de Kolmogorov-Smirnov (KS) dada por:
 
 $$
 \delta_{KS} (G_n, G_{\hat{\theta}}) = sup_{x} \mid G_n(x) - G_{\hat{\theta}}(x) \mid.
 $$
 
- A distância KS mede a máxima discrepância absoluta entre a função de distribuição empírica da amostra $ G_n(x) $ e a função de distribuição acumulada estimada $ G_{\hat{\theta}}(x) $ da distribuição beta. Os valores de $\theta$ que minimizam a discrepância das distribuições $(F_n,F_\theta)$, ou seja, os estimadores de mínima distância, serão denotados por $ \hat{\alpha}_\delta $ e $ \hat{\lambda}_\delta $.
+ A distância KS mede a máxima discrepância absoluta entre a função de distribuição empírica da amostra $G_n(x)$ e a função de distribuição acumulada estimada $G_{\hat{\theta}}(x)$ da distribuição beta. Os valores de $\theta$ que minimizam a discrepância das distribuições $(F_n,F_\theta)$, ou seja, os estimadores de mínima distância, serão denotados por  $\hat{\alpha}_\delta$ 
+ e  
+ 
+ $\hat{\lambda}_\delta$.
+
+
+
 
  
 ### 3. Método de Monte Carlo
@@ -100,3 +106,22 @@ Um algoritmo completo sobre o funcionamento de simulações de Monte Carlo, dado
 Um estudo de simulações de Monte Carlo é apresentado para avaliar numericamente os EMV dos parâmetros da distribuição NH. Foram consideradas 50000 réplicas de Monte Carlo para cada cenário com tamanhos amostrais $n=30, 100, 300$. Em cada réplica, foram geradas $n$ ocorrências da variável $x \sim NH(\alpha,\lambda)$ pelo método da inversão.
 
 As medidas estatísticas calculadas foram: média, viés, viés relativo percentual (VR), erro padrão e erro quadrático médio (EQM). As implementações computacionais foram desenvolvidas em linguagem R. Nos procedimentos de maximização das funções de log-verossimilhança condicionais foi utilizado o método quasi-Newton BFGS  com primeiras derivadas analíticas. O algoritmo de otimização exige valores iniciais definidos como seus respectivos valores verdadeiros. A escolha dos cenários foi feita fixamos o valor do parâmetro de escala $\lambda=1$ e variamos o parâmetro de forma $\alpha=0.5, 1, 2, 3.$ Os resultados são apresentados nas Tabelas 1, 2 e 3.
+
+<p align="center">
+  <img src="table1.PNG" alt="Tabela1" width="800">
+</p>
+
+
+<p align="center">
+  <img src="table2.PNG" alt="Tabela2" width="800">
+</p>
+
+<p align="center">
+  <img src="table3.PNG" alt="Tabela3" width="800">
+</p>
+
+Na Tabela 1, o parâmetro de forma é definido igual a $\alpha=0.5$, há evidentes distorções inferenciais, principalmente nas estimativas referentes ao $\alpha$. O VR do mesmo se mantém alto em todos tamanhos amostrais. O EMD denotado por $\hat{\alpha}_\delta$ e $\hat{\lambda}_\delta$ se mostrou altamente viesado na estimação do parâmetro de forma. Os EMVs com e sem o escore analítico possuem resultados numéricos semelhantes. Comparativamente aos outros cenários, este classifica-se como o pior.
+		
+A Tabela 2 apresenta estimadores razoáveis se tratando do método de máxima verossimilhança. Neste cenário, $\alpha=1$ e $\lambda=1$ é evidente a superioridade do EMV considerando primeira derivada analítica para convergência. Por exemplo, para tamanho amostral $n=30$ temos que VR de $\hat{\alpha}=79.27$ enquanto VR de $\hat{\alpha}_\delta=-6.11$. De forma geral, verifica-se que as estimativas para os parâmetros melhoram com o aumento amostral. Com exceção do EMD, as medidas apresentam consistência quando $n$ cresce. Observa-se que os valores do parâmetro de escala são na maioria dos casos menos viesados que os parâmetros de forma. Já na Tabela 3, descartamos o uso do EMD, pois apresentou problemas de convergência numérica. Porém, para os EMVs, percebe-se analogamente à Tabela 2, uma expressiva superioridade do EMV com primeiras derivadas numéricas em relação ao gradiente. Exemplificando, para um $n=100$ temos VR de $\hat{\lambda}$ igual a $-21.15$, enquanto que para sua versão com escore $\hat{\lambda}_s = -0.77$. Salienta-se o problema de máximos locais durante a otimização, que geraram isoladamente estimativas para os parâmetros fora de contexto e ocasionaram em distorções, principalmente para o EMD que não apresentou adequabilidade nessa circunstância.
+	
+De acordo com os resultados, podemos concluir que o estimador com desempenho superior comparativamente aos demais é o EMV com primeiras derivadas numéricas, como esperado. 
