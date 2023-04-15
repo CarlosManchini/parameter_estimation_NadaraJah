@@ -120,8 +120,16 @@ As medidas estatísticas calculadas foram: média, viés, viés relativo percent
   <img src="table3.PNG" alt="Tabela3" width="800">
 </p>
 
+### 5. Conclusões
+
 Na Tabela 1, o parâmetro de forma é definido igual a $\alpha=0.5$, há evidentes distorções inferenciais, principalmente nas estimativas referentes ao $\alpha$. O VR do mesmo se mantém alto em todos tamanhos amostrais. O EMD denotado por $\hat{\alpha}_\delta$ e $\hat{\lambda}_\delta$ se mostrou altamente viesado na estimação do parâmetro de forma. Os EMVs com e sem o escore analítico possuem resultados numéricos semelhantes. Comparativamente aos outros cenários, este classifica-se como o pior.
 		
 A Tabela 2 apresenta estimadores razoáveis se tratando do método de máxima verossimilhança. Neste cenário, $\alpha=1$ e $\lambda=1$ é evidente a superioridade do EMV considerando primeira derivada analítica para convergência. Por exemplo, para tamanho amostral $n=30$ temos que VR de $\hat{\alpha}=79.27$ enquanto VR de $\hat{\alpha}_\delta=-6.11$. De forma geral, verifica-se que as estimativas para os parâmetros melhoram com o aumento amostral. Com exceção do EMD, as medidas apresentam consistência quando $n$ cresce. Observa-se que os valores do parâmetro de escala são na maioria dos casos menos viesados que os parâmetros de forma. Já na Tabela 3, descartamos o uso do EMD, pois apresentou problemas de convergência numérica. Porém, para os EMVs, percebe-se analogamente à Tabela 2, uma expressiva superioridade do EMV com primeiras derivadas numéricas em relação ao gradiente. Exemplificando, para um $n=100$ temos VR de $\hat{\lambda}$ igual a $-21.15$, enquanto que para sua versão com escore $\hat{\lambda}_s = -0.77$. Salienta-se o problema de máximos locais durante a otimização, que geraram isoladamente estimativas para os parâmetros fora de contexto e ocasionaram em distorções, principalmente para o EMD que não apresentou adequabilidade nessa circunstância.
 	
 De acordo com os resultados, podemos concluir que o estimador com desempenho superior comparativamente aos demais é o EMV com primeiras derivadas numéricas, como esperado. 
+
+### Referências
+
+<p align="center">
+  <img src="refs.PNG" alt="Ref" width="800">
+</p>
