@@ -131,5 +131,5 @@ De acordo com os resultados, podemos concluir que o estimador com desempenho sup
 ### Referências
 
 <p align="center">
-  <img src="refs.PNG" alt="Ref" width="800">
+  <img src="refs.PNG" alt="Ref" width="666">
 </p>
